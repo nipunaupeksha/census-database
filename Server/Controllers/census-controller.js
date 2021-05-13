@@ -151,7 +151,7 @@ exports.houseHoldsNoInternet = function (req, res) {
 exports.vehiclesAvailableOccupiedHousingUnits = function (req, res) {
   //S0201_284E
   let createStateTable =
-    "CREATE TABLE IF NOT EXISTS S0201_284E( id int NOT NULL AUTO_INCREMENT,name VARCHAR(50),estimate int(255),PRIMARY KEY (id))";
+    "CREATE TABLE IF NOT EXISTS S0201_284E( id int NOT NULL AUTO_INCREMENT,name VARCHAR(100),estimate int(255),PRIMARY KEY (id))";
 
   https
     .get(
