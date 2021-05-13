@@ -6,11 +6,11 @@ const CENSUS_KEY = "bfea2392b87db962a6204d335feef04c7c7899f4";
 //Get All States
 exports.getAllStates = function (req, res) {
   let createStateTable =
-    "CREATE TABLE IF NOT EXISTS state(name VARCHAR(20),pop VARCHAR(20),state int(255),PRIMARY KEY (state))";
+    "CREATE TABLE IF NOT EXISTS state(id int NOT NULL AUTO_INCREMENT, name VARCHAR(100),pop int(255),state int(255),country int(255),PRIMARY KEY (id))";
 
   https
     .get(
-      "https://api.census.gov/data/2019/pep/charagegroups?get=NAME,POP&for=state:*&key=" +
+      "https://api.census.gov/data/2019/pep/charagegroups?get=NAME,POP&for=county:*&in=state:*&key=" +
         CENSUS_KEY,
       (resp) => {
         let data = "";
@@ -21,17 +21,20 @@ exports.getAllStates = function (req, res) {
 
         resp.on("end", () => {
           let censusData = JSON.parse(data);
-          let insertQ = "INSERT INTO state(name,pop,state) values";
+          let insertQ = "INSERT INTO state(name,pop,state,country) values";
           let selectQ = "SELECT * from state";
           for (let i = 1; i < censusData.length; i++) {
+            let ret = censusData[i][0].replace("'", "");
             insertQ =
               insertQ +
               "('" +
-              censusData[i][0] +
-              "','" +
-              censusData[i][1] +
+              ret +
               "'," +
+              censusData[i][1] +
+              "," +
               censusData[i][2] +
+              "," +
+              censusData[i][3] +
               "),";
           }
           insertQ = insertQ.substring(0, insertQ.length - 1);
@@ -1174,133 +1177,45 @@ exports.englishSpeakingHousehold = function (req, res) {
 
 //MOE - Persons who are not US citizens at birth
 exports.notUSCitizens = function (req, res) {
-    //Born_foreign_ACSMOE_14_18
-    let createStateTable =
-      "CREATE TABLE IF NOT EXISTS Born_foreign_ACSMOE_14_18( id int NOT NULL AUTO_INCREMENT,people int(255),state int(255),country int(255),PRIMARY KEY (id))";
-  
-    https
-      .get(
-        "https://api.census.gov/data/2020/pdb/statecounty?get=Born_foreign_ACSMOE_14_18&for=county:*&in=state:*&key=" +
-          CENSUS_KEY,
-        (resp) => {
-          let data = "";
-  
-          resp.on("data", (chunk) => {
-            data += chunk;
-          });
-  
-          resp.on("end", () => {
-            let censusData = JSON.parse(data);
-            let insertQ =
-              "INSERT INTO Born_foreign_ACSMOE_14_18(people,state,country) values";
-            let selectQ = "SELECT * from Born_foreign_ACSMOE_14_18";
-            for (let i = 1; i < censusData.length; i++) {
-              insertQ =
-                insertQ +
-                "(" +
-                censusData[i][0] +
-                "," +
-                censusData[i][1] +
-                "," +
-                censusData[i][2] +
-                "),";
-            }
-            insertQ = insertQ.substring(0, insertQ.length - 1);
-            dbConfig.query(selectQ, function (err, result) {
-              if (err) {
-                dbConfig.query(createStateTable, function (error, res_create) {
-                  if (error) {
-                    res.status(404).send({ success: false });
-                  } else {
-                    console.log("Born_foreign_ACSMOE_14_18 TABLE CREATED");
-                    dbConfig.query(insertQ, function (error_insert, response) {
-                      if (error_insert) {
-                        console.log(error_insert);
-                        res.status(404).send({ success: false });
-                      } else {
-                        res.status(200).send({ success: true });
-                      }
-                    });
-                  }
-                });
-              } else {
-                if (result != null) {
-                  res.status(200).send({ success: true });
-                } else {
-                  dbConfig.query(insertQ, function (error_insert, response) {
-                    if (error_insert) {
-                      console.log(error_insert);
-                      res.status(404).send({ success: false });
-                    } else {
-                      res.status(200).send({ success: true });
-                    }
-                  });
-                }
-              }
-            });
-          });
-        }
-      )
-      .on("error", (err) => {
-        console.log("Error: " + err.message);
-      });
-  };
+  //Born_foreign_ACSMOE_14_18
+  let createStateTable =
+    "CREATE TABLE IF NOT EXISTS Born_foreign_ACSMOE_14_18( id int NOT NULL AUTO_INCREMENT,people int(255),state int(255),country int(255),PRIMARY KEY (id))";
 
-//Total Group Quarters Population in the 2010 Census 
-exports.groupQuatersPopulation = function (req, res) {
-    //Born_foreign_ACSMOE_14_18
-    let createStateTable =
-      "CREATE TABLE IF NOT EXISTS Tot_GQ_CEN_2010( id int NOT NULL AUTO_INCREMENT,population int(255),state int(255),country int(255),PRIMARY KEY (id))";
-  
-    https
-      .get(
-        "https://api.census.gov/data/2020/pdb/statecounty?get=Tot_GQ_CEN_2010&for=county:*&in=state:*&key=" +
-          CENSUS_KEY,
-        (resp) => {
-          let data = "";
-  
-          resp.on("data", (chunk) => {
-            data += chunk;
-          });
-  
-          resp.on("end", () => {
-            let censusData = JSON.parse(data);
-            let insertQ =
-              "INSERT INTO Tot_GQ_CEN_2010(population,state,country) values";
-            let selectQ = "SELECT * from Tot_GQ_CEN_2010";
-            for (let i = 1; i < censusData.length; i++) {
-              insertQ =
-                insertQ +
-                "(" +
-                censusData[i][0] +
-                "," +
-                censusData[i][1] +
-                "," +
-                censusData[i][2] +
-                "),";
-            }
-            insertQ = insertQ.substring(0, insertQ.length - 1);
-            dbConfig.query(selectQ, function (err, result) {
-              if (err) {
-                dbConfig.query(createStateTable, function (error, res_create) {
-                  if (error) {
-                    res.status(404).send({ success: false });
-                  } else {
-                    console.log("Tot_GQ_CEN_2010 TABLE CREATED");
-                    dbConfig.query(insertQ, function (error_insert, response) {
-                      if (error_insert) {
-                        console.log(error_insert);
-                        res.status(404).send({ success: false });
-                      } else {
-                        res.status(200).send({ success: true });
-                      }
-                    });
-                  }
-                });
-              } else {
-                if (result != null) {
-                  res.status(200).send({ success: true });
+  https
+    .get(
+      "https://api.census.gov/data/2020/pdb/statecounty?get=Born_foreign_ACSMOE_14_18&for=county:*&in=state:*&key=" +
+        CENSUS_KEY,
+      (resp) => {
+        let data = "";
+
+        resp.on("data", (chunk) => {
+          data += chunk;
+        });
+
+        resp.on("end", () => {
+          let censusData = JSON.parse(data);
+          let insertQ =
+            "INSERT INTO Born_foreign_ACSMOE_14_18(people,state,country) values";
+          let selectQ = "SELECT * from Born_foreign_ACSMOE_14_18";
+          for (let i = 1; i < censusData.length; i++) {
+            insertQ =
+              insertQ +
+              "(" +
+              censusData[i][0] +
+              "," +
+              censusData[i][1] +
+              "," +
+              censusData[i][2] +
+              "),";
+          }
+          insertQ = insertQ.substring(0, insertQ.length - 1);
+          dbConfig.query(selectQ, function (err, result) {
+            if (err) {
+              dbConfig.query(createStateTable, function (error, res_create) {
+                if (error) {
+                  res.status(404).send({ success: false });
                 } else {
+                  console.log("Born_foreign_ACSMOE_14_18 TABLE CREATED");
                   dbConfig.query(insertQ, function (error_insert, response) {
                     if (error_insert) {
                       console.log(error_insert);
@@ -1310,12 +1225,100 @@ exports.groupQuatersPopulation = function (req, res) {
                     }
                   });
                 }
+              });
+            } else {
+              if (result != null) {
+                res.status(200).send({ success: true });
+              } else {
+                dbConfig.query(insertQ, function (error_insert, response) {
+                  if (error_insert) {
+                    console.log(error_insert);
+                    res.status(404).send({ success: false });
+                  } else {
+                    res.status(200).send({ success: true });
+                  }
+                });
               }
-            });
+            }
           });
-        }
-      )
-      .on("error", (err) => {
-        console.log("Error: " + err.message);
-      });
-  };
+        });
+      }
+    )
+    .on("error", (err) => {
+      console.log("Error: " + err.message);
+    });
+};
+
+//Total Group Quarters Population in the 2010 Census
+exports.groupQuatersPopulation = function (req, res) {
+  //Born_foreign_ACSMOE_14_18
+  let createStateTable =
+    "CREATE TABLE IF NOT EXISTS Tot_GQ_CEN_2010( id int NOT NULL AUTO_INCREMENT,population int(255),state int(255),country int(255),PRIMARY KEY (id))";
+
+  https
+    .get(
+      "https://api.census.gov/data/2020/pdb/statecounty?get=Tot_GQ_CEN_2010&for=county:*&in=state:*&key=" +
+        CENSUS_KEY,
+      (resp) => {
+        let data = "";
+
+        resp.on("data", (chunk) => {
+          data += chunk;
+        });
+
+        resp.on("end", () => {
+          let censusData = JSON.parse(data);
+          let insertQ =
+            "INSERT INTO Tot_GQ_CEN_2010(population,state,country) values";
+          let selectQ = "SELECT * from Tot_GQ_CEN_2010";
+          for (let i = 1; i < censusData.length; i++) {
+            insertQ =
+              insertQ +
+              "(" +
+              censusData[i][0] +
+              "," +
+              censusData[i][1] +
+              "," +
+              censusData[i][2] +
+              "),";
+          }
+          insertQ = insertQ.substring(0, insertQ.length - 1);
+          dbConfig.query(selectQ, function (err, result) {
+            if (err) {
+              dbConfig.query(createStateTable, function (error, res_create) {
+                if (error) {
+                  res.status(404).send({ success: false });
+                } else {
+                  console.log("Tot_GQ_CEN_2010 TABLE CREATED");
+                  dbConfig.query(insertQ, function (error_insert, response) {
+                    if (error_insert) {
+                      console.log(error_insert);
+                      res.status(404).send({ success: false });
+                    } else {
+                      res.status(200).send({ success: true });
+                    }
+                  });
+                }
+              });
+            } else {
+              if (result != null) {
+                res.status(200).send({ success: true });
+              } else {
+                dbConfig.query(insertQ, function (error_insert, response) {
+                  if (error_insert) {
+                    console.log(error_insert);
+                    res.status(404).send({ success: false });
+                  } else {
+                    res.status(200).send({ success: true });
+                  }
+                });
+              }
+            }
+          });
+        });
+      }
+    )
+    .on("error", (err) => {
+      console.log("Error: " + err.message);
+    });
+};
