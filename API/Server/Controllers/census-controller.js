@@ -6,7 +6,7 @@ const CENSUS_KEY = "bfea2392b87db962a6204d335feef04c7c7899f4";
 //Get All States
 exports.getAllStates = function (req, res) {
   let createStateTable =
-    "CREATE TABLE IF NOT EXISTS state(id int NOT NULL AUTO_INCREMENT, name VARCHAR(100),pop int(255),state int(255),country int(255),PRIMARY KEY (id))";
+    "CREATE TABLE IF NOT EXISTS state(id int NOT NULL AUTO_INCREMENT, name VARCHAR(100),pop int(255),state int(255),county int(255),PRIMARY KEY (id))";
 
   https
     .get(
@@ -21,7 +21,7 @@ exports.getAllStates = function (req, res) {
 
         resp.on("end", () => {
           let censusData = JSON.parse(data);
-          let insertQ = "INSERT INTO state(name,pop,state,country) values";
+          let insertQ = "INSERT INTO state(name,pop,state,county) values";
           let selectQ = "SELECT * from state";
           for (let i = 1; i < censusData.length; i++) {
             let ret = censusData[i][0].replace("'", "");
@@ -151,7 +151,7 @@ exports.houseHoldsNoInternet = function (req, res) {
 exports.vehiclesAvailableOccupiedHousingUnits = function (req, res) {
   //S0201_284E
   let createStateTable =
-    "CREATE TABLE IF NOT EXISTS S0201_284E( id int NOT NULL AUTO_INCREMENT,name VARCHAR(100),estimate int(255),PRIMARY KEY (id))";
+    "CREATE TABLE IF NOT EXISTS S0201_284E( id int NOT NULL AUTO_INCREMENT,name VARCHAR(255),estimate int(255),PRIMARY KEY (id))";
 
   https
     .get(
@@ -217,7 +217,7 @@ exports.vehiclesAvailableOccupiedHousingUnits = function (req, res) {
 exports.housingUnitsInStructures = function (req, res) {
   //MLT_U2_9_STRC_ACSMOE_14_18
   let createStateTable =
-    "CREATE TABLE IF NOT EXISTS MLT_U2_9_STRC_ACSMOE_14_18( id int NOT NULL AUTO_INCREMENT,housingUnitsInStructures int(255),state int(255),country int(255),PRIMARY KEY (id))";
+    "CREATE TABLE IF NOT EXISTS MLT_U2_9_STRC_ACSMOE_14_18( id int NOT NULL AUTO_INCREMENT,housingUnitsInStructures VARCHAR(255),state int(255),county int(255),PRIMARY KEY (id))";
 
   https
     .get(
@@ -233,14 +233,14 @@ exports.housingUnitsInStructures = function (req, res) {
         resp.on("end", () => {
           let censusData = JSON.parse(data);
           let insertQ =
-            "INSERT INTO MLT_U2_9_STRC_ACSMOE_14_18(housingUnitsInStructures,state,country) values";
+            "INSERT INTO MLT_U2_9_STRC_ACSMOE_14_18(housingUnitsInStructures,state,county) values";
           let selectQ = "SELECT * from MLT_U2_9_STRC_ACSMOE_14_18";
           for (let i = 1; i < censusData.length; i++) {
             insertQ =
               insertQ +
-              "(" +
+              "('" +
               censusData[i][0] +
-              "," +
+              "'," +
               censusData[i][1] +
               "," +
               censusData[i][2] +
@@ -291,7 +291,7 @@ exports.housingUnitsInStructures = function (req, res) {
 exports.mobilehomes = function (req, res) {
   //Mobile_Homes_ACSMOE_14_18
   let createStateTable =
-    "CREATE TABLE IF NOT EXISTS Mobile_Homes_ACSMOE_14_18( id int NOT NULL AUTO_INCREMENT,mobilehomes int(255),state int(255),country int(255),PRIMARY KEY (id))";
+    "CREATE TABLE IF NOT EXISTS Mobile_Homes_ACSMOE_14_18( id int NOT NULL AUTO_INCREMENT,mobilehomes int(255),state int(255),county int(255),PRIMARY KEY (id))";
 
   https
     .get(
@@ -307,7 +307,7 @@ exports.mobilehomes = function (req, res) {
         resp.on("end", () => {
           let censusData = JSON.parse(data);
           let insertQ =
-            "INSERT INTO Mobile_Homes_ACSMOE_14_18(mobilehomes,state,country) values";
+            "INSERT INTO Mobile_Homes_ACSMOE_14_18(mobilehomes,state,county) values";
           let selectQ = "SELECT * from Mobile_Homes_ACSMOE_14_18";
           for (let i = 1; i < censusData.length; i++) {
             insertQ =
@@ -365,7 +365,7 @@ exports.mobilehomes = function (req, res) {
 exports.totalPersonsInHouseholds = function (req, res) {
   //Tot_Prns_in_HHD_ACSMOE_14_18
   let createStateTable =
-    "CREATE TABLE IF NOT EXISTS Tot_Prns_in_HHD_ACSMOE_14_18( id int NOT NULL AUTO_INCREMENT,personsinhousehold int(255),state int(255),country int(255),PRIMARY KEY (id))";
+    "CREATE TABLE IF NOT EXISTS Tot_Prns_in_HHD_ACSMOE_14_18( id int NOT NULL AUTO_INCREMENT,personsinhousehold int(255),state int(255),county int(255),PRIMARY KEY (id))";
 
   https
     .get(
@@ -381,7 +381,7 @@ exports.totalPersonsInHouseholds = function (req, res) {
         resp.on("end", () => {
           let censusData = JSON.parse(data);
           let insertQ =
-            "INSERT INTO Tot_Prns_in_HHD_ACSMOE_14_18(personsinhousehold,state,country) values";
+            "INSERT INTO Tot_Prns_in_HHD_ACSMOE_14_18(personsinhousehold,state,county) values";
           let selectQ = "SELECT * from Tot_Prns_in_HHD_ACSMOE_14_18";
           for (let i = 1; i < censusData.length; i++) {
             insertQ =
@@ -439,7 +439,7 @@ exports.totalPersonsInHouseholds = function (req, res) {
 exports.totalPopulation = function (req, res) {
   //Tot_Population_ACSMOE_14_18
   let createStateTable =
-    "CREATE TABLE IF NOT EXISTS Tot_Population_ACSMOE_14_18( id int NOT NULL AUTO_INCREMENT,totalPopulation int(255),state int(255),country int(255),PRIMARY KEY (id))";
+    "CREATE TABLE IF NOT EXISTS Tot_Population_ACSMOE_14_18( id int NOT NULL AUTO_INCREMENT,totalPopulation int(255),state int(255),county int(255),PRIMARY KEY (id))";
 
   https
     .get(
@@ -455,7 +455,7 @@ exports.totalPopulation = function (req, res) {
         resp.on("end", () => {
           let censusData = JSON.parse(data);
           let insertQ =
-            "INSERT INTO Tot_Population_ACSMOE_14_18(totalPopulation,state,country) values";
+            "INSERT INTO Tot_Population_ACSMOE_14_18(totalPopulation,state,county) values";
           let selectQ = "SELECT * from Tot_Population_ACSMOE_14_18";
           for (let i = 1; i < censusData.length; i++) {
             insertQ =
@@ -513,7 +513,7 @@ exports.totalPopulation = function (req, res) {
 exports.popPovertyLevelDefined = function (req, res) {
   //Pov_Univ_ACS_14_18
   let createStateTable =
-    "CREATE TABLE IF NOT EXISTS Pov_Univ_ACS_14_18( id int NOT NULL AUTO_INCREMENT,population int(255),state int(255),country int(255),PRIMARY KEY (id))";
+    "CREATE TABLE IF NOT EXISTS Pov_Univ_ACS_14_18( id int NOT NULL AUTO_INCREMENT,population int(255),state int(255),county int(255),PRIMARY KEY (id))";
 
   https
     .get(
@@ -529,7 +529,7 @@ exports.popPovertyLevelDefined = function (req, res) {
         resp.on("end", () => {
           let censusData = JSON.parse(data);
           let insertQ =
-            "INSERT INTO Pov_Univ_ACS_14_18(population,state,country) values";
+            "INSERT INTO Pov_Univ_ACS_14_18(population,state,county) values";
           let selectQ = "SELECT * from Pov_Univ_ACS_14_18";
           for (let i = 1; i < censusData.length; i++) {
             insertQ =
@@ -587,7 +587,7 @@ exports.popPovertyLevelDefined = function (req, res) {
 exports.civilainsUnemployed = function (req, res) {
   //Civ_unemp_16plus_ACSMOE_14_18
   let createStateTable =
-    "CREATE TABLE IF NOT EXISTS Civ_unemp_16plus_ACSMOE_14_18( id int NOT NULL AUTO_INCREMENT,civilians int(255),state int(255),country int(255),PRIMARY KEY (id))";
+    "CREATE TABLE IF NOT EXISTS Civ_unemp_16plus_ACSMOE_14_18( id int NOT NULL AUTO_INCREMENT,civilians int(255),state int(255),county int(255),PRIMARY KEY (id))";
 
   https
     .get(
@@ -603,7 +603,7 @@ exports.civilainsUnemployed = function (req, res) {
         resp.on("end", () => {
           let censusData = JSON.parse(data);
           let insertQ =
-            "INSERT INTO Civ_unemp_16plus_ACSMOE_14_18(civilians,state,country) values";
+            "INSERT INTO Civ_unemp_16plus_ACSMOE_14_18(civilians,state,county) values";
           let selectQ = "SELECT * from Civ_unemp_16plus_ACSMOE_14_18";
           for (let i = 1; i < censusData.length; i++) {
             insertQ =
@@ -661,7 +661,7 @@ exports.civilainsUnemployed = function (req, res) {
 exports.notHighScoolGraduates = function (req, res) {
   //Not_HS_Grad_ACSMOE_14_18
   let createStateTable =
-    "CREATE TABLE IF NOT EXISTS Not_HS_Grad_ACSMOE_14_18( id int NOT NULL AUTO_INCREMENT,people int(255),state int(255),country int(255),PRIMARY KEY (id))";
+    "CREATE TABLE IF NOT EXISTS Not_HS_Grad_ACSMOE_14_18( id int NOT NULL AUTO_INCREMENT,people int(255),state int(255),county int(255),PRIMARY KEY (id))";
 
   https
     .get(
@@ -677,7 +677,7 @@ exports.notHighScoolGraduates = function (req, res) {
         resp.on("end", () => {
           let censusData = JSON.parse(data);
           let insertQ =
-            "INSERT INTO Not_HS_Grad_ACSMOE_14_18(people,state,country) values";
+            "INSERT INTO Not_HS_Grad_ACSMOE_14_18(people,state,county) values";
           let selectQ = "SELECT * from Not_HS_Grad_ACSMOE_14_18";
           for (let i = 1; i < censusData.length; i++) {
             insertQ =
@@ -735,7 +735,7 @@ exports.notHighScoolGraduates = function (req, res) {
 exports.civilianNonInstitutionalizedPopulation = function (req, res) {
   //Civ_noninst_pop_65P_ACSMOE_14_18
   let createStateTable =
-    "CREATE TABLE IF NOT EXISTS Civ_noninst_pop_65P_ACSMOE_14_18( id int NOT NULL AUTO_INCREMENT,population int(255),state int(255),country int(255),PRIMARY KEY (id))";
+    "CREATE TABLE IF NOT EXISTS Civ_noninst_pop_65P_ACSMOE_14_18( id int NOT NULL AUTO_INCREMENT,population int(255),state int(255),county int(255),PRIMARY KEY (id))";
 
   https
     .get(
@@ -751,7 +751,7 @@ exports.civilianNonInstitutionalizedPopulation = function (req, res) {
         resp.on("end", () => {
           let censusData = JSON.parse(data);
           let insertQ =
-            "INSERT INTO Civ_noninst_pop_65P_ACSMOE_14_18(population,state,country) values";
+            "INSERT INTO Civ_noninst_pop_65P_ACSMOE_14_18(population,state,county) values";
           let selectQ = "SELECT * from Civ_noninst_pop_65P_ACSMOE_14_18";
           for (let i = 1; i < censusData.length; i++) {
             insertQ =
@@ -809,7 +809,7 @@ exports.civilianNonInstitutionalizedPopulation = function (req, res) {
 exports.personAgesFiveThroughSeventeen = function (req, res) {
   //Pop_5_17_ACSMOE_14_18
   let createStateTable =
-    "CREATE TABLE IF NOT EXISTS Pop_5_17_ACSMOE_14_18( id int NOT NULL AUTO_INCREMENT,people int(255),state int(255),country int(255),PRIMARY KEY (id))";
+    "CREATE TABLE IF NOT EXISTS Pop_5_17_ACSMOE_14_18( id int NOT NULL AUTO_INCREMENT,people int(255),state int(255),county int(255),PRIMARY KEY (id))";
 
   https
     .get(
@@ -825,7 +825,7 @@ exports.personAgesFiveThroughSeventeen = function (req, res) {
         resp.on("end", () => {
           let censusData = JSON.parse(data);
           let insertQ =
-            "INSERT INTO Pop_5_17_ACSMOE_14_18(people,state,country) values";
+            "INSERT INTO Pop_5_17_ACSMOE_14_18(people,state,county) values";
           let selectQ = "SELECT * from Pop_5_17_ACSMOE_14_18";
           for (let i = 1; i < censusData.length; i++) {
             insertQ =
@@ -883,7 +883,7 @@ exports.personAgesFiveThroughSeventeen = function (req, res) {
 exports.totalPopulationWithDisability = function (req, res) {
   //Pop_Disabled_ACSMOE_14_18
   let createStateTable =
-    "CREATE TABLE IF NOT EXISTS Pop_Disabled_ACSMOE_14_18( id int NOT NULL AUTO_INCREMENT,population int(255),state int(255),country int(255),PRIMARY KEY (id))";
+    "CREATE TABLE IF NOT EXISTS Pop_Disabled_ACSMOE_14_18( id int NOT NULL AUTO_INCREMENT,population int(255),state int(255),county int(255),PRIMARY KEY (id))";
 
   https
     .get(
@@ -899,7 +899,7 @@ exports.totalPopulationWithDisability = function (req, res) {
         resp.on("end", () => {
           let censusData = JSON.parse(data);
           let insertQ =
-            "INSERT INTO Pop_Disabled_ACSMOE_14_18(population,state,country) values";
+            "INSERT INTO Pop_Disabled_ACSMOE_14_18(population,state,county) values";
           let selectQ = "SELECT * from Pop_Disabled_ACSMOE_14_18";
           for (let i = 1; i < censusData.length; i++) {
             insertQ =
@@ -957,7 +957,7 @@ exports.totalPopulationWithDisability = function (req, res) {
 exports.civilianNonInstitutionalizedPopulation_ = function (req, res) {
   //Civ_Noninst_Pop_ACSMOE_14_18
   let createStateTable =
-    "CREATE TABLE IF NOT EXISTS Civ_Noninst_Pop_ACSMOE_14_18( id int NOT NULL AUTO_INCREMENT,population int(255),state int(255),country int(255),PRIMARY KEY (id))";
+    "CREATE TABLE IF NOT EXISTS Civ_Noninst_Pop_ACSMOE_14_18( id int NOT NULL AUTO_INCREMENT,population int(255),state int(255),county int(255),PRIMARY KEY (id))";
 
   https
     .get(
@@ -973,7 +973,7 @@ exports.civilianNonInstitutionalizedPopulation_ = function (req, res) {
         resp.on("end", () => {
           let censusData = JSON.parse(data);
           let insertQ =
-            "INSERT INTO Civ_Noninst_Pop_ACSMOE_14_18(population,state,country) values";
+            "INSERT INTO Civ_Noninst_Pop_ACSMOE_14_18(population,state,county) values";
           let selectQ = "SELECT * from Civ_Noninst_Pop_ACSMOE_14_18";
           for (let i = 1; i < censusData.length; i++) {
             insertQ =
@@ -1031,7 +1031,7 @@ exports.civilianNonInstitutionalizedPopulation_ = function (req, res) {
 exports.aggregateHousholdIncome = function (req, res) {
   //Aggregate_HH_INC_ACSMOE_14_18
   let createStateTable =
-    "CREATE TABLE IF NOT EXISTS Aggregate_HH_INC_ACSMOE_14_18( id int NOT NULL AUTO_INCREMENT,income VARCHAR(255),state int(255),country int(255),PRIMARY KEY (id))";
+    "CREATE TABLE IF NOT EXISTS Aggregate_HH_INC_ACSMOE_14_18( id int NOT NULL AUTO_INCREMENT,income VARCHAR(255),state int(255),county int(255),PRIMARY KEY (id))";
 
   https
     .get(
@@ -1047,7 +1047,7 @@ exports.aggregateHousholdIncome = function (req, res) {
         resp.on("end", () => {
           let censusData = JSON.parse(data);
           let insertQ =
-            "INSERT INTO Aggregate_HH_INC_ACSMOE_14_18(income,state,country) values";
+            "INSERT INTO Aggregate_HH_INC_ACSMOE_14_18(income,state,county) values";
           let selectQ = "SELECT * from Aggregate_HH_INC_ACSMOE_14_18";
           for (let i = 1; i < censusData.length; i++) {
             insertQ =
@@ -1105,7 +1105,7 @@ exports.aggregateHousholdIncome = function (req, res) {
 exports.englishSpeakingHousehold = function (req, res) {
   //ENG_VW_OTHER_ACS_14_18
   let createStateTable =
-    "CREATE TABLE IF NOT EXISTS ENG_VW_OTHER_ACS_14_18( id int NOT NULL AUTO_INCREMENT,speakinghousehold int(255),state int(255),country int(255),PRIMARY KEY (id))";
+    "CREATE TABLE IF NOT EXISTS ENG_VW_OTHER_ACS_14_18( id int NOT NULL AUTO_INCREMENT,speakinghousehold int(255),state int(255),county int(255),PRIMARY KEY (id))";
 
   https
     .get(
@@ -1121,7 +1121,7 @@ exports.englishSpeakingHousehold = function (req, res) {
         resp.on("end", () => {
           let censusData = JSON.parse(data);
           let insertQ =
-            "INSERT INTO ENG_VW_OTHER_ACS_14_18(speakinghousehold,state,country) values";
+            "INSERT INTO ENG_VW_OTHER_ACS_14_18(speakinghousehold,state,county) values";
           let selectQ = "SELECT * from ENG_VW_OTHER_ACS_14_18";
           for (let i = 1; i < censusData.length; i++) {
             insertQ =
@@ -1179,7 +1179,7 @@ exports.englishSpeakingHousehold = function (req, res) {
 exports.notUSCitizens = function (req, res) {
   //Born_foreign_ACSMOE_14_18
   let createStateTable =
-    "CREATE TABLE IF NOT EXISTS Born_foreign_ACSMOE_14_18( id int NOT NULL AUTO_INCREMENT,people int(255),state int(255),country int(255),PRIMARY KEY (id))";
+    "CREATE TABLE IF NOT EXISTS Born_foreign_ACSMOE_14_18( id int NOT NULL AUTO_INCREMENT,people int(255),state int(255),county int(255),PRIMARY KEY (id))";
 
   https
     .get(
@@ -1195,7 +1195,7 @@ exports.notUSCitizens = function (req, res) {
         resp.on("end", () => {
           let censusData = JSON.parse(data);
           let insertQ =
-            "INSERT INTO Born_foreign_ACSMOE_14_18(people,state,country) values";
+            "INSERT INTO Born_foreign_ACSMOE_14_18(people,state,county) values";
           let selectQ = "SELECT * from Born_foreign_ACSMOE_14_18";
           for (let i = 1; i < censusData.length; i++) {
             insertQ =
@@ -1253,7 +1253,7 @@ exports.notUSCitizens = function (req, res) {
 exports.groupQuatersPopulation = function (req, res) {
   //Born_foreign_ACSMOE_14_18
   let createStateTable =
-    "CREATE TABLE IF NOT EXISTS Tot_GQ_CEN_2010( id int NOT NULL AUTO_INCREMENT,population int(255),state int(255),country int(255),PRIMARY KEY (id))";
+    "CREATE TABLE IF NOT EXISTS Tot_GQ_CEN_2010( id int NOT NULL AUTO_INCREMENT,population int(255),state int(255),county int(255),PRIMARY KEY (id))";
 
   https
     .get(
@@ -1269,7 +1269,7 @@ exports.groupQuatersPopulation = function (req, res) {
         resp.on("end", () => {
           let censusData = JSON.parse(data);
           let insertQ =
-            "INSERT INTO Tot_GQ_CEN_2010(population,state,country) values";
+            "INSERT INTO Tot_GQ_CEN_2010(population,state,county) values";
           let selectQ = "SELECT * from Tot_GQ_CEN_2010";
           for (let i = 1; i < censusData.length; i++) {
             insertQ =
