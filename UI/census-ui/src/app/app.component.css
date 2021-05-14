@@ -1,0 +1,23 @@
+.btn-success{
+    margin-top:2%;
+    text-align: center;
+    width: 100%;
+}
+h5{
+    display: flex;
+  justify-content: center;
+  align-items: center;
+    font-size: 15px;
+}
+.center{
+    display: flex;
+  justify-content: left;
+  align-items: center;
+  margin-top: 1%;
+}
+.success-input{
+    color:#28a745;
+}
+.fail-input{
+    color: #ffc107;
+}

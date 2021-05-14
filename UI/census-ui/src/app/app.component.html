@@ -1,0 +1,184 @@
+<div class="wrapper">
+  <div class="container">
+    <div style="display:block;margin:0 auto">
+      <div class="row">
+        <div class="col-md-12">
+          <h2>Census Data Crawler</h2>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-4">
+          <button class="btn btn-success btn-block" (click)="getAllStates()">Get States</button>
+        </div>
+        <div class="col-md-4 center" [ngClass]="{'success-input':successLog[0], 'fail-input':!successLog[0]}">
+          <h5 *ngIf='successLog[0]'>Success</h5>
+          <h5 *ngIf='!successLog[0]'>Failed</h5>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-4">
+          <button class="btn btn-success btn-block" (click)="householdsNoInternet()">Households No Internet</button>
+        </div>
+        <div class="col-md-4 center" [ngClass]="{'success-input':successLog[1], 'fail-input':!successLog[1]}">
+          <h5 *ngIf='successLog[1]'>Success</h5>
+          <h5 *ngIf='!successLog[1]'>Failed</h5>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-4">
+          <button class="btn btn-success btn-block" (click)="vehiclesAvailableOccupiedHousingUnits()">Vehicles Available
+            Occupied HousingUnits</button>
+        </div>
+        <div class="col-md-4 center" [ngClass]="{'success-input':successLog[2], 'fail-input':!successLog[2]}">
+          <h5 *ngIf='successLog[2]'>Success</h5>
+          <h5 *ngIf='!successLog[2]'>Failed</h5>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-4">
+          <button class="btn btn-success btn-block" (click)="housingUnitsInStructures()">Housing Units In
+            Structures</button>
+        </div>
+        <div class="col-md-4 center" [ngClass]="{'success-input':successLog[3], 'fail-input':!successLog[3]}">
+          <h5 *ngIf='successLog[3]'>Success</h5>
+          <h5 *ngIf='!successLog[3]'>Failed</h5>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-4">
+          <button class="btn btn-success btn-block" (click)="mobilehomes()">Mobile Homes</button>
+        </div>
+        <div class="col-md-4 center" [ngClass]="{'success-input':successLog[4], 'fail-input':!successLog[4]}">
+          <h5 *ngIf='successLog[4]'>Success</h5>
+          <h5 *ngIf='!successLog[4]'>Failed</h5>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-4">
+          <button class="btn btn-success btn-block" (click)="totalPersonsInHouseholds()">Total Persons In
+            Households</button>
+        </div>
+        <div class="col-md-4 center" [ngClass]="{'success-input':successLog[5], 'fail-input':!successLog[5]}">
+          <h5 *ngIf='successLog[5]'>Success</h5>
+          <h5 *ngIf='!successLog[5]'>Failed</h5>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-4">
+          <button class="btn btn-success btn-block" (click)="totalPopulation()">Total Population</button>
+        </div>
+        <div class="col-md-4 center" [ngClass]="{'success-input':successLog[6], 'fail-input':!successLog[6]}">
+          <h5 *ngIf='successLog[6]'>Success</h5>
+          <h5 *ngIf='!successLog[6]'>Failed</h5>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-4">
+          <button class="btn btn-success btn-block" (click)="popPovertyLevelDefined()">popPovertyLevelDefined</button>
+        </div>
+        <div class="col-md-4 center" [ngClass]="{'success-input':successLog[7], 'fail-input':!successLog[7]}">
+          <h5 *ngIf='successLog[7]'>Success</h5>
+          <h5 *ngIf='!successLog[7]'>Failed</h5>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-4">
+          <button class="btn btn-success btn-block" (click)="civilainsUnemployed()">Civilains Unemployed</button>
+        </div>
+        <div class="col-md-4 center" [ngClass]="{'success-input':successLog[8], 'fail-input':!successLog[8]}">
+          <h5 *ngIf='successLog[8]'>Success</h5>
+          <h5 *ngIf='!successLog[8]'>Failed</h5>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-4">
+          <button class="btn btn-success btn-block" (click)="notHighScoolGraduates()">Not High Scool Graduates</button>
+        </div>
+        <div class="col-md-4 center" [ngClass]="{'success-input':successLog[9], 'fail-input':!successLog[9]}">
+          <h5 *ngIf='successLog[9]'>Success</h5>
+          <h5 *ngIf='!successLog[9]'>Failed</h5>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-4">
+          <button class="btn btn-success btn-block" (click)="civilianNonInstitutionalizedPopulation()">Civilian
+            Non-Institutionalized Population</button>
+        </div>
+        <div class="col-md-4 center" [ngClass]="{'success-input':successLog[10], 'fail-input':!successLog[10]}">
+          <h5 *ngIf='successLog[10]'>Success</h5>
+          <h5 *ngIf='!successLog[10]'>Failed</h5>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-4">
+          <button class="btn btn-success btn-block" (click)="personAgesFiveThroughSeventeen()">Person Ages Five Through
+            Seventeen</button>
+        </div>
+        <div class="col-md-4 center" [ngClass]="{'success-input':successLog[11], 'fail-input':!successLog[11]}">
+          <h5 *ngIf='successLog[11]'>Success</h5>
+          <h5 *ngIf='!successLog[11]'>Failed</h5>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-4">
+          <button class="btn btn-success btn-block" (click)="totalPopulationWithDisability()">Total Population With
+            Disability</button>
+        </div>
+        <div class="col-md-4 center" [ngClass]="{'success-input':successLog[12], 'fail-input':!successLog[12]}">
+          <h5 *ngIf='successLog[12]'>Success</h5>
+          <h5 *ngIf='!successLog[12]'>Failed</h5>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-4">
+          <button class="btn btn-success btn-block" (click)="civilianNonInstitutionalizedPopulations()">Civilian Non
+            Institutionalized Populations</button>
+        </div>
+        <div class="col-md-4 center" [ngClass]="{'success-input':successLog[13], 'fail-input':!successLog[13]}">
+          <h5 *ngIf='successLog[13]'>Success</h5>
+          <h5 *ngIf='!successLog[13]'>Failed</h5>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-4">
+          <button class="btn btn-success btn-block" (click)="aggregateHousholdIncome()">Aggregate Houshold
+            Income</button>
+        </div>
+        <div class="col-md-4 center" [ngClass]="{'success-input':successLog[14], 'fail-input':!successLog[14]}">
+          <h5 *ngIf='successLog[14]'>Success</h5>
+          <h5 *ngIf='!successLog[14]'>Failed</h5>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-4">
+          <button class="btn btn-success btn-block" (click)="englishSpeakingHousehold()">English Speaking
+            Household</button>
+        </div>
+        <div class="col-md-4 center" [ngClass]="{'success-input':successLog[15], 'fail-input':!successLog[15]}">
+          <h5 *ngIf='successLog[15]'>Success</h5>
+          <h5 *ngIf='!successLog[15]'>Failed</h5>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-4">
+          <button class="btn btn-success btn-block" (click)="notUSCitizens()">Not US Citizens</button>
+        </div>
+        <div class="col-md-4 center" [ngClass]="{'success-input':successLog[16], 'fail-input':!successLog[16]}">
+          <h5 *ngIf='successLog[16]'>Success</h5>
+          <h5 *ngIf='!successLog[16]'>Failed</h5>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-4">
+          <button class="btn btn-success btn-block" (click)="groupQuatersPopulation()">Group Quaters Population</button>
+        </div>
+        <div class="col-md-4 center" [ngClass]="{'success-input':successLog[17], 'fail-input':!successLog[17]}">
+          <h5 *ngIf='successLog[17]'>Success</h5>
+          <h5 *ngIf='!successLog[17]'>Failed</h5>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<router-outlet></router-outlet>
