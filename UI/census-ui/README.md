@@ -2,6 +2,9 @@
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 12.0.0.
 
+## Change URL Backend
+go to `src/app/services/endpoint-utill.service.ts` then changed the variable `BACKEND_URL` to the URL of your node server running, default value is `http://localhost:8080/`
+
 ## Development server
 
 Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
