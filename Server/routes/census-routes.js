@@ -34,8 +34,8 @@ router.get(
   censusController.totalPopulationWithDisability
 );
 router.get(
-  "/civilianNonInstitutionalizedPopulation",
-  censusController.civilianNonInstitutionalizedPopulation
+  "/civilianNonInstitutionalizedPopulations",
+  censusController.civilianNonInstitutionalizedPopulation_
 );
 router.get(
   "/aggregateHousholdIncome",

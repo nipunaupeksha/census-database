@@ -954,7 +954,7 @@ exports.totalPopulationWithDisability = function (req, res) {
 };
 
 //MOE - Civilian noninstitutionalized population
-exports.civilianNonInstitutionalizedPopulation = function (req, res) {
+exports.civilianNonInstitutionalizedPopulation_ = function (req, res) {
   //Civ_Noninst_Pop_ACSMOE_14_18
   let createStateTable =
     "CREATE TABLE IF NOT EXISTS Civ_Noninst_Pop_ACSMOE_14_18( id int NOT NULL AUTO_INCREMENT,population int(255),state int(255),country int(255),PRIMARY KEY (id))";
