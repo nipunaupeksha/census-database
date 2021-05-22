@@ -25,6 +25,18 @@ export class EndpointUtillService {
       .pipe(map((res) => res));
   }
 
+  public getAllCounties() {
+    return this.http
+      .get(this.BACKEND_URL + 'census/getAllCounties', { headers: this.headers })
+      .pipe(map((res) => res));
+  }
+
+  public getAllStatesCouniesMap() {
+    return this.http
+      .get(this.BACKEND_URL + 'census/getAllStatesCounties', { headers: this.headers })
+      .pipe(map((res) => res));
+  }
+
   public householdsNoInternet() {
     return this.http
       .get(this.BACKEND_URL + 'census/householdsNoInternet', {

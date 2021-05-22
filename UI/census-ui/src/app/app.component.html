@@ -17,6 +17,24 @@
       </div>
       <div class="row">
         <div class="col-md-4">
+          <button class="btn btn-success btn-block" (click)="getAllCounties()">Get Counties</button>
+        </div>
+        <div class="col-md-4 center" [ngClass]="{'success-input':successLog[18], 'fail-input':!successLog[18]}">
+          <h5 *ngIf='successLog[18]'>Success</h5>
+          <h5 *ngIf='!successLog[18]'>Failed</h5>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-4">
+          <button class="btn btn-success btn-block" (click)="getAllStatesCouniesMap()">Get States Counties Map</button>
+        </div>
+        <div class="col-md-4 center" [ngClass]="{'success-input':successLog[19], 'fail-input':!successLog[19]}">
+          <h5 *ngIf='successLog[19]'>Success</h5>
+          <h5 *ngIf='!successLog[19]'>Failed</h5>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-4">
           <button class="btn btn-success btn-block" (click)="householdsNoInternet()">Households No Internet</button>
         </div>
         <div class="col-md-4 center" [ngClass]="{'success-input':successLog[1], 'fail-input':!successLog[1]}">

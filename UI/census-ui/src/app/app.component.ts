@@ -27,6 +27,8 @@ export class AppComponent {
     false,
     false,
     false,
+    false,
+    false
   ];
 
   constructor(private endpointUtillService: EndpointUtillService) {}
@@ -38,6 +40,32 @@ export class AppComponent {
       },
       (error) => {
         this.successLog[0] = false;
+        console.log(error);
+      }
+    );
+  }
+
+  getAllCounties() {
+    this.endpointUtillService.getAllCounties().subscribe(
+      (success) => {
+        this.successLog[18] = true;
+        console.log(success);
+      },
+      (error) => {
+        this.successLog[18] = false;
+        console.log(error);
+      }
+    );
+  }
+
+  getAllStatesCouniesMap() {
+    this.endpointUtillService.getAllStatesCouniesMap().subscribe(
+      (success) => {
+        this.successLog[19] = true;
+        console.log(success);
+      },
+      (error) => {
+        this.successLog[19] = false;
         console.log(error);
       }
     );
