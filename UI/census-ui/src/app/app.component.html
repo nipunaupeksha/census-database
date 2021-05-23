@@ -35,6 +35,15 @@
       </div>
       <div class="row">
         <div class="col-md-4">
+          <button class="btn btn-success btn-block" (click)="getAllCountyBlockMap()">Get County Census Block Map</button>
+        </div>
+        <div class="col-md-4 center" [ngClass]="{'success-input':successLog[20], 'fail-input':!successLog[20]}">
+          <h5 *ngIf='successLog[20]'>Success</h5>
+          <h5 *ngIf='!successLog[20]'>Failed</h5>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-4">
           <button class="btn btn-success btn-block" (click)="householdsNoInternet()">Households No Internet</button>
         </div>
         <div class="col-md-4 center" [ngClass]="{'success-input':successLog[1], 'fail-input':!successLog[1]}">

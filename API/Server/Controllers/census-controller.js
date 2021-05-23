@@ -25,13 +25,7 @@ exports.getAllStates = function (req, res) {
           let selectQ = "SELECT * from state";
           for (let i = 1; i < censusData.length; i++) {
             let ret = censusData[i][0].replace("'", "");
-            insertQ =
-              insertQ +
-              "('" +
-              ret +
-              "'," +
-              censusData[i][1] +
-              "),";
+            insertQ = insertQ + "('" + ret + "'," + censusData[i][1] + "),";
           }
           insertQ = insertQ.substring(0, insertQ.length - 1);
           dbConfig.query(selectQ, function (err, result) {
@@ -79,7 +73,7 @@ exports.getAllCounties = function (req, res) {
   let createCountyTable =
     "CREATE TABLE IF NOT EXISTS county(name VARCHAR(100),county int(255))";
   let createCountyStateTable =
-    "CREATE TABLE IF NOT EXISTS county_state(state int(255),county int(255))";  
+    "CREATE TABLE IF NOT EXISTS county_state(state int(255),county int(255))";
 
   https
     .get(
@@ -101,13 +95,7 @@ exports.getAllCounties = function (req, res) {
           for (let i = 1; i < censusData.length; i++) {
             let ret = censusData[i][0].replace("'", "");
             ret = ret.split(",");
-            insertQ =
-              insertQ +
-              "('" +
-              ret[0] +
-              "'," +
-              censusData[i][2] +
-              "),";
+            insertQ = insertQ + "('" + ret[0] + "'," + censusData[i][2] + "),";
           }
           for (let i = 1; i < censusData.length; i++) {
             insertQ1 =
@@ -162,7 +150,7 @@ exports.getAllCounties = function (req, res) {
 
 exports.getAllStateCounties = function (req, res) {
   let createCountyTable =
-    "CREATE TABLE IF NOT EXISTS county_state(state int(255),county int(255))";  
+    "CREATE TABLE IF NOT EXISTS county_state(state int(255),county int(255))";
 
   https
     .get(
@@ -179,7 +167,7 @@ exports.getAllStateCounties = function (req, res) {
           let censusData = JSON.parse(data);
           let insertQ = "INSERT INTO county_state(state,county) values";
           let selectQ = "SELECT * from county_state";
-          
+
           for (let i = 1; i < censusData.length; i++) {
             insertQ =
               insertQ +
@@ -228,6 +216,82 @@ exports.getAllStateCounties = function (req, res) {
     .on("error", (err) => {
       console.log("Error: " + err.message);
     });
+};
+
+exports.getAllCensusBlock = function (req, res) {
+  let data_ = [];
+  let state_county = "SELECT * from county_state";
+  let createCountyTable =
+    "CREATE TABLE IF NOT EXISTS block_group(county int(255),census_block int(255))";
+  dbConfig.query(createCountyTable, function (error, res_create) {
+    if (error) {
+      res.status(404).send({ success: false });
+    } else {
+      console.log("block_group TABLE CREATED");
+    }
+  });
+  dbConfig.query(state_county, function (error_insert, response) {
+    if (error_insert) {
+      console.log(error_insert);
+    } else {
+      for (let i in response) {
+        let x = {
+          state: response[i]["state"],
+          county: response[i]["county"],
+        };
+        data_.push(x);
+        if (response.length - 1 == i) {
+          for (let i = 0; i < data_.length; i++) {
+            setTimeout(function () {
+              ff(data_, i);
+            }, 10000*i);
+          }
+        }
+      }
+      res.status(200).send({ success: true });
+    }
+  });
+};
+
+const ff = (data_, i) => {
+  console.log(i);
+  https.get(
+    "https://api.census.gov/data/2018/pdb/blockgroup?get=Block_Group&for=block%20group:*&in=state:" +
+      data_[i].state +
+      "%20county:" +
+      data_[i].county +
+      "&key=" +
+      CENSUS_KEY,
+    (resp) => {
+      let data = "";
+      resp.on("data", (chunk) => {
+        data += chunk;
+        console.log(data);
+      });
+      resp.on("end", () => {
+        if (data != "") {
+          let censusData = JSON.parse(data);
+          let insertQ = "INSERT INTO block_group(county,census_block) values";
+          for (let i = 1; i < censusData.length; i++) {
+            insertQ =
+              insertQ +
+              "('" +
+              censusData[i][2] +
+              "'," +
+              censusData[i][0] +
+              "),";
+          }
+
+          insertQ = insertQ.substring(0, insertQ.length - 1);
+          dbConfig.query(insertQ, function (error_insert, response) {
+            if (error_insert) {
+              console.log(error_insert);
+            }
+          });
+        }
+      });
+    }
+  );
 };
 
 //MOE - Households that have no Internet access

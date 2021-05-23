@@ -27,13 +27,25 @@ export class EndpointUtillService {
 
   public getAllCounties() {
     return this.http
-      .get(this.BACKEND_URL + 'census/getAllCounties', { headers: this.headers })
+      .get(this.BACKEND_URL + 'census/getAllCounties', {
+        headers: this.headers,
+      })
       .pipe(map((res) => res));
   }
 
   public getAllStatesCouniesMap() {
     return this.http
-      .get(this.BACKEND_URL + 'census/getAllStatesCounties', { headers: this.headers })
+      .get(this.BACKEND_URL + 'census/getAllStatesCounties', {
+        headers: this.headers,
+      })
+      .pipe(map((res) => res));
+  }
+
+  public getAllCountyBlockMap() {
+    return this.http
+      .get(this.BACKEND_URL + 'census/getAllCensusBlock', {
+        headers: this.headers,
+      })
       .pipe(map((res) => res));
   }
 

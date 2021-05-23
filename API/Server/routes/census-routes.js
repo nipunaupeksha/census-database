@@ -5,6 +5,7 @@ const censusController = require("../Controllers/census-controller");
 router.get("/getAllStates", censusController.getAllStates);
 router.get("/getAllCounties", censusController.getAllCounties);
 router.get("/getAllStatesCounties", censusController.getAllStateCounties);
+router.get("/getAllCensusBlock", censusController.getAllCensusBlock);
 router.get("/householdsNoInternet", censusController.houseHoldsNoInternet);
 router.get(
   "/vehiclesAvailableOccupiedHousingUnits",
